@@ -5,16 +5,15 @@ ipl.sys: c08.asm
 	nasm c08.asm -o ipl.sys -l ipl.lst
 
 ipl.img: boot.bin ipl.sys Makefile
-	dd if=boot.bin of=ipl.img bs=512 count=1
-	# mformat -f 1440 -C -B boot.bin -i ipl.img :: 
-	dd if=ipl.sys of=ipl.img bs=512 seek=100
-	# mcopy ipl.sys -i ipl.img :: 
+	FixVhdWr -r boot.bin -a 0 -w ./os.vhd
+	FixVhdWr -r ipl.sys -a 100 -w ./os.vhd
 
 # 
 default:
 	make run
 img: 
+	cp ../os.vhd ./
 	make -r ipl.img
 run:
 	make img
-	qemu-system-i386 -fda ipl.img 
+	qemu-system-i386 os.vhd

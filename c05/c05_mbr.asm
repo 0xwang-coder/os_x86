@@ -101,4 +101,4 @@ infi: jmp near infi                 ; loop
 number db 0,0,0,0,0
 
 times 203 db 0
-      db 0x55,0xaa
+db 0x55,0xaa
