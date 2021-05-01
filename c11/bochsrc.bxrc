@@ -11,21 +11,21 @@ vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
 
 # 设置bochs使用的磁盘，软盘使用关键字floppya，硬盘使用disk
 # 若有多个软盘，可写floppya，floppyb
-floppya: 1_44=ipl.img, status=inserted
+# floppya: 1_44=ipl.img, status=inserted
 
-# 默认是软盘，注释掉，改为disk
-boot: floppy
-#boot: disk
+# 默认是软盘
+# boot: floppy
+boot: disk
 
-# where do we send log messages?
-log: bochsout.txt
+# 日志
+log: bochsout.out
 # disable the mouse
 mouse: enabled=0
 
-# enable key mapping, using US layout as default.
+# 开启键盘映射，默认使用US布局
 # keyboard: enabled=1, map=E:\Bochs\keymaps\x11-pc-us.map
 keyboard: keymap=$BXSHARE/keymaps/x11-pc-us.map
 
+# hard disk
 ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-#这一句是根据bximage生成的
-#ata0-master: type=disk, path="ipl.bin", mode=flat
+ata0-master: type=disk, path="os.vhd", mode=vpc, cylinders=1003, heads=12, spt=17, model="Generic 1234", biosdetect=auto, translation=auto
