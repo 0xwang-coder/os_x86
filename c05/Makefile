@@ -6,7 +6,7 @@ ipl.img: boot.bin Makefile
 	mformat -f 1440 -C -B boot.bin -i ipl.img :: 
 
 # 
-run: c05_mbr.asm
+run: ipl.img
 	qemu-system-i386 -hdd ipl.img
 
 default:
