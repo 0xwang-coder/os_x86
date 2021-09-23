@@ -1,27 +1,27 @@
-         ;´úÂëÇåµ¥15-2
-         ;ÎÄ¼þÃû£ºc15.asm
-         ;ÎÄ¼þËµÃ÷£ºÓÃ»§³ÌÐò 
-         ;´´½¨ÈÕÆÚ£º2011-11-15 19:11   
+;15-2
+;c15.asm
+;
+; 
 
 ;===============================================================================
 SECTION header vstart=0
 
-         program_length   dd program_end          ;³ÌÐò×Ü³¤¶È#0x00
+         program_length   dd program_end          ;ï¿½ï¿½ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½#0x00
          
-         head_len         dd header_end           ;³ÌÐòÍ·²¿µÄ³¤¶È#0x04
+         head_len         dd header_end           ;ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½#0x04
 
-         stack_seg        dd 0                    ;ÓÃÓÚ½ÓÊÕ¶ÑÕ»¶ÎÑ¡Ôñ×Ó#0x08
-         stack_len        dd 1                    ;³ÌÐò½¨ÒéµÄ¶ÑÕ»´óÐ¡#0x0c
-                                                  ;ÒÔ4KBÎªµ¥Î»
+         stack_seg        dd 0                    ;ï¿½ï¿½ï¿½Ú½ï¿½ï¿½Õ¶ï¿½Õ»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½#0x08
+         stack_len        dd 1                    ;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Õ»ï¿½ï¿½Ð¡#0x0c
+                                                  ;ï¿½ï¿½4KBÎªï¿½ï¿½Î»
                                                   
-         prgentry         dd start                ;³ÌÐòÈë¿Ú#0x10 
-         code_seg         dd section.code.start   ;´úÂë¶ÎÎ»ÖÃ#0x14
-         code_len         dd code_end             ;´úÂë¶Î³¤¶È#0x18
+         prgentry         dd start                ;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½#0x10 
+         code_seg         dd section.code.start   ;ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½#0x14
+         code_len         dd code_end             ;ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½#0x18
 
-         data_seg         dd section.data.start   ;Êý¾Ý¶ÎÎ»ÖÃ#0x1c
-         data_len         dd data_end             ;Êý¾Ý¶Î³¤¶È#0x20
+         data_seg         dd section.data.start   ;ï¿½ï¿½ï¿½Ý¶ï¿½Î»ï¿½ï¿½#0x1c
+         data_len         dd data_end             ;ï¿½ï¿½ï¿½Ý¶Î³ï¿½ï¿½ï¿½#0x20
 ;-------------------------------------------------------------------------------
-         ;·ûºÅµØÖ·¼ìË÷±í
+         ;ï¿½ï¿½ï¿½Åµï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
          salt_items       dd (header_end-salt)/256 ;#0x24
          
          salt:                                     ;#0x28
@@ -53,7 +53,7 @@ data_end:
 ;===============================================================================
 SECTION code vstart=0
 start:
-         ;ÈÎÎñÆô¶¯Ê±£¬DSÖ¸ÏòÍ·²¿¶Î£¬Ò²²»ÐèÒªÉèÖÃ¶ÑÕ» 
+         ;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½DSÖ¸ï¿½ï¿½Í·ï¿½ï¿½ï¿½Î£ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ã¶ï¿½Õ» 
          mov eax,ds
          mov fs,eax
      
@@ -71,7 +71,7 @@ start:
          mov ebx,message_2
          call far [fs:PrintString]
      
-         call far [fs:TerminateProgram]      ;ÍË³ö£¬²¢½«¿ØÖÆÈ¨·µ»Øµ½ºËÐÄ 
+         call far [fs:TerminateProgram]      ;ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ 
     
 code_end:
 
