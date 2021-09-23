@@ -1,4 +1,5 @@
-*.txt
+*.out
 *.bin
 *.lst
 *.img
+*.vhd
