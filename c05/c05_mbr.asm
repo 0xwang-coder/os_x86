@@ -1,7 +1,7 @@
 ;5-1 
 ;05_mbr.asm
 ;
-;31 21:15 
+;
 
 mov ax,0xb800                 ;ָ
 mov es,ax
@@ -47,7 +47,7 @@ div bx
 mov [0x7c00+number+0x00],dl   ;
 
 ;
-xor dx,dx
+xor dx,dx                     ; set dx=0
 div bx
 mov [0x7c00+number+0x01],dl   ;
 
@@ -92,7 +92,7 @@ add al,0x30
 mov [es:0x22],al
 mov byte [es:0x23],0x04
 
-; ASCII
+; show end ASCII
 mov byte [es:0x24],'D'
 mov byte [es:0x25],0x07
 

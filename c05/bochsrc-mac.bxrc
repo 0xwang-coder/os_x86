@@ -1,0 +1,15 @@
+megs: 32
+
+romimage: file=/usr/local/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/local/share/bochs/VGABIOS-lgpl-latest
+
+boot: disk 
+log: bochs-mac.out
+
+# display_library: sdl
+mouse: enabled=0
+
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=disk, path="os.vhd", mode=flat
+
+#gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0

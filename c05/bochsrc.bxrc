@@ -18,7 +18,7 @@ boot: floppy
 #boot: disk
 
 # where do we send log messages?
-log: bochsout.txt
+log: bochsout.out
 # disable the mouse
 mouse: enabled=0
 

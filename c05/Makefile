@@ -3,11 +3,14 @@ boot.bin: c05_mbr.asm
 	nasm c05_mbr.asm -o boot.bin -l boot.lst
 
 ipl.img: boot.bin Makefile
-	mformat -f 1440 -C -B boot.bin -i ipl.img :: 
+	FixVhdWr -r boot.bin -a 0 -w ./os.vhd
 
 # 
-run: ipl.img
-	qemu-system-i386 -hdd ipl.img
-
 default:
 	make run
+img: 
+	cp ../os.vhd ./
+	make -r ipl.img
+run:
+	make img
+	qemu-system-i386 os.vhd
