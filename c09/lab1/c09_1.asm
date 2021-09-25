@@ -23,7 +23,7 @@ SECTION header vstart=0                     ;
 header_end:                
     
 ;===============================================================================
-SECTION code align=16 vstart=0           ;�������Σ�16�ֽڶ��룩 
+SECTION code align=16 vstart=0           ;
 new_int_0x70:
       push ax
       push bx
@@ -32,66 +32,66 @@ new_int_0x70:
       push es
       
   .w0:                                    
-      mov al,0x0a                        ;���NMI����Ȼ��ͨ���ǲ���Ҫ��
+      mov al,0x0a                        ;NMI
       or al,0x80                          
       out 0x70,al
-      in al,0x71                         ;���Ĵ���A
-      test al,0x80                       ;���Ե�7λUIP 
-      jnz .w0                            ;���ϴ�����ڸ������ڽ����ж���˵ 
-                                         ;�ǲ���Ҫ�� 
+      in al,0x71                         ;
+      test al,0x80                       ;UIP 
+      jnz .w0                            ;
+                                         ;
       xor al,al
       or al,0x80
       out 0x70,al
-      in al,0x71                         ;��RTC��ǰʱ��(��)
+      in al,0x71                         ;
       push ax
 
       mov al,2
       or al,0x80
       out 0x70,al
-      in al,0x71                         ;��RTC��ǰʱ��(��)
+      in al,0x71                         ;
       push ax
 
       mov al,4
       or al,0x80
       out 0x70,al
-      in al,0x71                         ;��RTC��ǰʱ��(ʱ)
+      in al,0x71                         ;RTC
       push ax
 
-      mov al,0x0c                        ;�Ĵ���C���������ҿ���NMI 
+      mov al,0x0c                        ;NMI 
       out 0x70,al
-      in al,0x71                         ;��һ��RTC�ļĴ���C������ֻ����һ���ж�
-                                         ;�˴����������Ӻ��������жϵ���� 
+      in al,0x71                         ;
+                                         ;
       mov ax,0xb800
       mov es,ax
 
       pop ax
       call bcd_to_ascii
-      mov bx,12*160 + 36*2               ;����Ļ�ϵ�12��36�п�ʼ��ʾ
+      mov bx,12*160 + 36*2               ;
 
       mov [es:bx],ah
-      mov [es:bx+2],al                   ;��ʾ��λСʱ����
+      mov [es:bx+2],al                   ;
 
       mov al,':'
-      mov [es:bx+4],al                   ;��ʾ�ָ���':'
-      not byte [es:bx+5]                 ;��ת��ʾ���� 
+      mov [es:bx+4],al                   ;
+      not byte [es:bx+5]                 ;
 
       pop ax
       call bcd_to_ascii
       mov [es:bx+6],ah
-      mov [es:bx+8],al                   ;��ʾ��λ��������
+      mov [es:bx+8],al                   ;
 
       mov al,':'
-      mov [es:bx+10],al                  ;��ʾ�ָ���':'
-      not byte [es:bx+11]                ;��ת��ʾ����
+      mov [es:bx+10],al                  ;
+      not byte [es:bx+11]                ;
 
       pop ax
       call bcd_to_ascii
       mov [es:bx+12],ah
-      mov [es:bx+14],al                  ;��ʾ��λСʱ����
+      mov [es:bx+14],al                  ;
       
-      mov al,0x20                        ;�жϽ�������EOI 
-      out 0xa0,al                        ;���Ƭ���� 
-      out 0x20,al                        ;����Ƭ���� 
+      mov al,0x20                        ;EOI 
+      out 0xa0,al                        ;
+      out 0x20,al                        ;
 
       pop es
       pop dx
@@ -102,14 +102,14 @@ new_int_0x70:
       iret
 
 ;-------------------------------------------------------------------------------
-bcd_to_ascii:                            ;BCD��תASCII
-                                         ;���룺AL=bcd��
-                                         ;�����AX=ascii
-  mov ah,al                          ;�ֲ���������� 
-  and al,0x0f                        ;��������4λ 
-  add al,0x30                        ;ת����ASCII 
+bcd_to_ascii:                            ;BCD ASCII
+                                         ;AL=bcd
+                                         ;AX=ascii
+  mov ah,al                          ;
+  and al,0x0f                        ;
+  add al,0x30                        ; ASCII
 
-  shr ah,4                           ;�߼�����4λ 
+  shr ah,4                           ;
   and ah,0x0f                        
   add ah,0x30
 
@@ -117,72 +117,72 @@ bcd_to_ascii:                            ;BCD��תASCII
 
 ;-------------------------------------------------------------------------------
 start:
-      mov ax,[stack_segment]
-      mov ss,ax
-      mov sp,ss_pointer
-      mov ax,[data_segment]
-      mov ds,ax
-      
-      mov bx,init_msg                    ;��ʾ��ʼ��Ϣ 
-      call put_string
+    mov ax,[stack_segment]             ; init all segment reg
+    mov ss,ax
+    mov sp,ss_pointer
+    mov ax,[data_segment]
+    mov ds,ax
+    
+    mov bx,init_msg                    ; show init msg
+    call put_string
 
-      mov bx,inst_msg                    ;��ʾ��װ��Ϣ 
-      call put_string
-      
-      mov al,0x70
-      mov bl,4
-      mul bl                             ;����0x70���ж���IVT�е�ƫ��
-      mov bx,ax                          
+    mov bx,inst_msg                    ; show inst msg
+    call put_string
+    
+    mov al,0x70                        ; 'interrupt code' * 4 
+    mov bl,4
+    mul bl                             
+    mov bx,ax                          
 
-      cli                                ;��ֹ�Ķ��ڼ䷢���µ�0x70���ж�
+    cli                                ; clear interrupt
 
-      push es
-      mov ax,0x0000
-      mov es,ax
-      mov word [es:bx],new_int_0x70      ;ƫ�Ƶ�ַ��
-                                          
-      mov word [es:bx+2],cs              ;�ε�ַ
-      pop es
+    push es                            ; es point to 'interrupt table'
+    mov ax,0x0000
+    mov es,ax
+    mov word [es:bx],new_int_0x70      ; write real addr to 'interrupt table'
+                                        
+    mov word [es:bx+2],cs              
+    pop es
 
-      mov al,0x0b                        ;RTC�Ĵ���B
-      or al,0x80                         ;���NMI 
-      out 0x70,al
-      mov al,0x12                        ;���üĴ���B����ֹ�������жϣ����Ÿ� 
-      out 0x71,al                        ;�½������жϣ�BCD�룬24Сʱ�� 
+    mov al,0x0b                        ; RTC register B
+    or al,0x80                         ; NMI 
+    out 0x70,al
+    mov al,0x12                        ; write register B and forbid some interrupt
+    out 0x71,al                        
 
-      mov al,0x0c
-      out 0x70,al
-      in al,0x71                         ;��RTC�Ĵ���C����λδ�����ж�״̬
+    mov al,0x0c                        ; read register C
+    out 0x70,al
+    in al,0x71                         
 
-      in al,0xa1                         ;��8259��Ƭ��IMR�Ĵ��� 
-      and al,0xfe                        ;���bit 0(��λ����RTC)
-      out 0xa1,al                        ;д�ش˼Ĵ��� 
+    in al,0xa1                         ; read register IMR
+    and al,0xfe                        
+    out 0xa1,al                        
 
-      sti                                ;���¿����ж� 
+    sti                                ; allow interrupt
 
-      mov bx,done_msg                    ;��ʾ��װ�����Ϣ 
-      call put_string
+    mov bx,done_msg                    ;
+    call put_string
 
-      mov bx,tips_msg                    ;��ʾ��ʾ��Ϣ
-      call put_string
-      
-      mov cx,0xb800
-      mov ds,cx
-      mov byte [12*160 + 33*2],'@'       ;��Ļ��12�У�35��
+    mov bx,tips_msg                    ;
+    call put_string
+    
+    mov cx,0xb800                      ; DS　point to buffer
+    mov ds,cx
+    mov byte [12*160 + 33*2],'@'       ; position where '@' show in
        
- .idle:
-      hlt                                ;ʹCPU����͹���״̬��ֱ�����жϻ���
-      not byte [12*160 + 33*2+1]         ;��ת��ʾ���� 
-      jmp .idle
+  .idle:
+    hlt                                ; cpu stop work
+    not byte [12*160 + 33*2+1]         ; show animation
+    jmp .idle
 
 ;-------------------------------------------------------------------------------
-put_string:                              ;��ʾ��(0��β)��
+put_string:                              ;
                                          ;���룺DS:BX=����ַ
   mov cl,[bx]
   or cl,cl                        ;cl=0 ?
-  jz .exit                        ;�ǵģ����������� 
+  jz .exit                        ;
   call put_char
-  inc bx                          ;��һ���ַ� 
+  inc bx                          ; 
   jmp put_string
 
    .exit:
@@ -203,18 +203,18 @@ put_char:                                ;
   mov al,0x0e
   out dx,al
   mov dx,0x3d5
-  in al,dx                        ;��8λ 
+  in al,dx                        ;
   mov ah,al
 
   mov dx,0x3d4
   mov al,0x0f
   out dx,al
   mov dx,0x3d5
-  in al,dx                        ;��8λ 
-  mov bx,ax                       ;BX=�������λ�õ�16λ��
+  in al,dx                        ;
+  mov bx,ax                       ;BX=
 
-  cmp cl,0x0d                     ;�س�����
-  jnz .put_0a                     ;���ǡ������ǲ��ǻ��е��ַ� 
+  cmp cl,0x0d                     ;
+  jnz .put_0a                     ;
   mov ax,bx                       ; 
   mov bl,80                       
   div bl
