@@ -10,14 +10,9 @@ romimage: file=$BXSHARE/BIOS-bochs-latest
 vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
 
 # 设置bochs使用的磁盘，软盘使用关键字floppya，硬盘使用disk
-# 若有多个软盘，可写floppya，floppyb
-floppya: 1_44=ipl.img, status=inserted
+boot: disk
 
-# 默认是软盘，注释掉，改为disk
-boot: floppy
-#boot: disk
-
-# where do we send log messages?
+# log
 log: bochsout.out
 # disable the mouse
 mouse: enabled=0
@@ -27,6 +22,4 @@ mouse: enabled=0
 keyboard: keymap=$BXSHARE/keymaps/x11-pc-us.map
 
 ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-
-#这一句是根据bximage生成的
-#ata0-master: type=disk, path="ipl.bin", mode=flat
+ata0-master: type=disk, path="os.vhd", mode=flat
